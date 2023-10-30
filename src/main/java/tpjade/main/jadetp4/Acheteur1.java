@@ -1,5 +1,6 @@
 package tpjade.main.jadetp4;
 
+import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
@@ -26,6 +27,13 @@ public class Acheteur1 extends GuiAgent {
 
     @Override
     protected void onGuiEvent(GuiEvent guiEvent) {
-
+        if (guiEvent.getType()==1){
+            String productName= (String) guiEvent.getParameter(0);
+            System.out.println("Agent => "+getAID().getName()+"| mon message => "+productName);
+            ACLMessage message = new ACLMessage(ACLMessage.CONFIRM);
+            message.addReceiver(new AID("Vendeur",AID.ISLOCALNAME));
+            message.setContent(productName);
+            send(message);
+        }
     }
 }
