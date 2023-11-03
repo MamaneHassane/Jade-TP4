@@ -23,7 +23,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.List;
 
 public class Acheteur2Container extends Application{
     protected Acheteur2 acheteur2;
@@ -36,10 +35,10 @@ public class Acheteur2Container extends Application{
         HBox hBox1 = new HBox();
         hBox1.setPadding(new Insets(10));
         hBox1.setSpacing(10);
-        Label label = new Label("Product name");
-        TextField productName = new TextField();
+        Label label = new Label("Mon offre");
+        TextField monOffre = new TextField();
         Button buttonOk = new Button("OK");
-        hBox1.getChildren().addAll(label,productName,buttonOk);
+        hBox1.getChildren().addAll(label,monOffre,buttonOk);
         borderPane.setTop(hBox1);
         observableListData= FXCollections.observableArrayList();
         ListView<String> listView = new ListView<String>(observableListData);
@@ -51,7 +50,7 @@ public class Acheteur2Container extends Application{
         Scene scene = new Scene(borderPane,400,300);
         stage.setScene(scene);
         buttonOk.setOnAction(evt->{
-            String prdName = productName.getText();
+            String prdName = monOffre.getText();
             GuiEvent guiEvent = new GuiEvent(this,1);
             guiEvent.addParameter(prdName);
             acheteur2.onGuiEvent(guiEvent);
