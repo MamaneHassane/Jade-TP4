@@ -52,14 +52,12 @@ public class Commissaire_priseur extends GuiAgent {
                     }
                     addBehaviour(new ContractNetInitiator(myAgent, cfp) {
                         protected void handlePropose(ACLMessage propose, Vector v) {
-                            // Traitement des propositions reçues
                             double price = Double.parseDouble(propose.getContent());
                             if (price < bestPrice) {
                                 bestPrice = price;
                                 bestSeller = propose.getSender();
                             }
                         }
-
                         protected void handleAllResponses(Vector responses, Vector acceptances) {
                             // Gestion des réponses reçues de tous les agents vendeurs
                             for (Iterator it = (Iterator) responses.iterator(); it.hasNext(); ) {
@@ -72,8 +70,6 @@ public class Commissaire_priseur extends GuiAgent {
                                     acceptances.addElement(accept);
                                 }
                             }
-
-                            // Informez tous les agents du résultat de l'enchère
                             informAllAgents("L'enchère est remportée par " + bestSeller.getName() + " au prix de " + bestPrice, agents);
                         }
                     });
@@ -88,7 +84,6 @@ public class Commissaire_priseur extends GuiAgent {
     protected void onGuiEvent(GuiEvent guiEvent) {
     }
 
-    // Ajoutez cette méthode pour informer tous les agents
     public void informAllAgents(String result, DFAgentDescription[] agents) {
         ACLMessage inform = new ACLMessage(ACLMessage.INFORM);
         inform.setContent(result);

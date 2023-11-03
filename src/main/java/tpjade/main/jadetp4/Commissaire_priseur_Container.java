@@ -33,7 +33,7 @@ public class Commissaire_priseur_Container extends Application {
         hBox1.setPadding(new Insets(10));
         hBox1.setSpacing(10);
         Label label = new Label("Nom du produit");
-        Label productName = new Label("Sac en peau"); 
+        Label productName = new Label("Sac en peau");
         hBox1.getChildren().addAll(label, productName);
         borderPane.setTop(hBox1);
         observableListData = FXCollections.observableArrayList();
