@@ -112,7 +112,7 @@ public class Commissaire_priseur extends GuiAgent {
                 reponse = receive(templateReponse);
                 commissairePriseurContainer.afficherMessages(reponse);
                 if(reponse!=null){
-                    switch (message.getPerformative()){
+                    switch (reponse.getPerformative()){
                         case ACLMessage.REQUEST -> {
                             article = message.getContent();
                         }
@@ -120,8 +120,10 @@ public class Commissaire_priseur extends GuiAgent {
                             les_prix.put(reponse.getSender(),Double.parseDouble(reponse.getContent()));
                             meilleureEntree = trouverMeilleurOffreur(les_prix);
                             setMeilleureOffre(meilleureEntree.getValue());
+                            System.out.println("Meilleure offre "+getMeilleureOffre());
+                            System.out.println("Meilleur offreur "+getMeilleurOffreur());
                             setMeilleurOffreur(meilleureEntree.getKey());
-                            if(meilleureOffre>=20000){ //On fait autant de tours jusqu'à atteindre notre objectif
+                            if(getMeilleureOffre()>=30000){ //On fait autant de tours jusqu'à atteindre notre objectif
                                 ACLMessage accept = new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
                                 accept.addReceiver(getMeilleurOffreur());
                                 accept.setContent("Adjugé vendu");
@@ -130,8 +132,8 @@ public class Commissaire_priseur extends GuiAgent {
                             else {
                                 System.out.println(acheteurs.length);
                                 message = new ACLMessage(ACLMessage.CFP);
-                                message.setContent(Double.toString(meilleureOffre));
-                                for (int i =0; i<acheteurs.length;i++) message.addReceiver(new AID(acheteurs[i].getName(),AID.ISLOCALNAME));
+                                message.setContent(Double.toString(getMeilleureOffre()));
+                                for (int i =0; i<acheteurs.length;i++) message.addReceiver(acheteurs[i]);
                                 send(message);
                             }
                         }

@@ -43,7 +43,7 @@ public class Acheteur4 extends GuiAgent {
                         case ACLMessage.CFP -> {
                             ACLMessage surenchere = new ACLMessage(ACLMessage.PROPOSE);
                             surenchere.addReceiver(reply4.getSender());
-                            surenchere.setContent(String.valueOf((Double.parseDouble((reply4.getContent())))+890));
+                            surenchere.setContent(String.valueOf((Double.parseDouble((reply4.getContent())))+6000));
                             send(surenchere);
                         }
                         case ACLMessage.ACCEPT_PROPOSAL -> {
