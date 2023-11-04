@@ -2,6 +2,7 @@ package tpjade.main.jadetp4;
 
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
@@ -15,25 +16,44 @@ public class Acheteur1 extends GuiAgent {
     protected void setup() {
         acheteur1Container = (Acheteur1Container) getArguments()[0];
         acheteur1Container.acheteur1 = this;
+        addBehaviour(new OneShotBehaviour() {
+            @Override
+            public void action() {
+                DFAgentDescription dfd = new DFAgentDescription();
+                dfd.setName(getAID());
+                ServiceDescription sd = new ServiceDescription();
+                sd.setType("tableau");
+                sd.setName("vente-aux-enchères");
+                dfd.addServices(sd);
+                try {
+                    DFService.register(myAgent, dfd);
+                }
+                catch (FIPAException fe) {
+                    fe.printStackTrace();
+                }
+            }
+        });
 
-        DFAgentDescription dfd = new DFAgentDescription();
-        dfd.setName(getAID());
-        ServiceDescription sd = new ServiceDescription();
-        sd.setType("Artisanal-Product");
-        sd.setName("e-commerce");
-        dfd.addServices(sd);
-        try {
-            DFService.register(this, dfd);
-        }
-        catch (FIPAException fe) {
-            fe.printStackTrace();
-        }
         addBehaviour(new CyclicBehaviour() {
             @Override
             public void action() {
                 ACLMessage reply1 = receive();
                 if (reply1 != null) {
                     acheteur1Container.afficherMessages(reply1);
+                    switch(reply1.getPerformative()) {
+                        case ACLMessage.CFP -> {
+                            ACLMessage surenchere = new ACLMessage(ACLMessage.PROPOSE);
+                            surenchere.addReceiver(reply1.getSender());
+                            surenchere.setContent(String.valueOf((Double.parseDouble((reply1.getContent())))+1000));
+                            send(surenchere);
+                        }
+                        case ACLMessage.ACCEPT_PROPOSAL -> {
+                            ACLMessage fin = new ACLMessage(ACLMessage.AGREE);
+                            fin.setContent("Merci pour cette offre");
+                            fin.addReceiver(reply1.getSender());
+                            send(fin);
+                        }
+                    }
                 } else {
                     block();
                 }
@@ -46,10 +66,18 @@ public class Acheteur1 extends GuiAgent {
         if (guiEvent.getType() == 1) {
             String monPrix = (String) guiEvent.getParameter(0);
             System.out.println("Agent => " + getAID().getName() + "| mon prix => " + monPrix);
-            ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+            ACLMessage message = new ACLMessage(ACLMessage.PROPOSE);
             message.addReceiver(new AID("Commissaire_priseur", AID.ISLOCALNAME));
             message.setContent(monPrix);
             send(message);
+        }
+    }
+    @Override
+    protected void takeDown() {
+        try {
+            DFService.deregister(this);
+        } catch (FIPAException e) {
+            e.printStackTrace();
         }
     }
 }

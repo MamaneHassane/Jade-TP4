@@ -4,6 +4,7 @@ import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
 import jade.gui.GuiEvent;
+import jade.lang.acl.ACLMessage;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import javafx.application.Application;
@@ -33,7 +34,7 @@ public class Commissaire_priseur_Container extends Application {
         hBox1.setPadding(new Insets(10));
         hBox1.setSpacing(10);
         Label label = new Label("Nom du produit");
-        Label productName = new Label("Sac en peau");
+        Label productName = new Label("tableau");
         hBox1.getChildren().addAll(label, productName);
         borderPane.setTop(hBox1);
         observableListData = FXCollections.observableArrayList();
@@ -47,13 +48,12 @@ public class Commissaire_priseur_Container extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
-    public void afficherMessages(String message) {
-        Platform.runLater(() -> {
-            observableListData.add(message);
+    public void afficherMessages(ACLMessage aclMessage){
+        Platform.runLater(()->{
+            if(aclMessage!=null)
+            observableListData.add(aclMessage.getContent()+" reçu de la part de "+ aclMessage.getSender().getName());
         });
     }
-
     private void startContainer() {
         Runtime runtime = Runtime.instance();
         Profile profileImpl = new ProfileImpl();

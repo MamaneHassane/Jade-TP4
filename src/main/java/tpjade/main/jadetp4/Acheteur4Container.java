@@ -59,7 +59,8 @@ public class Acheteur4Container extends Application{
     }
     public void afficherMessages(ACLMessage aclMessage){
         Platform.runLater(()->{
-            observableListData.add(aclMessage.getContent()+" reçu de la part de "+ aclMessage.getSender().getName());
+            if(aclMessage!=null)
+                observableListData.add(aclMessage.getContent()+" reçu de la part de "+ aclMessage.getSender().getName());
         });
     }
     private void startContainer() {
@@ -68,7 +69,7 @@ public class Acheteur4Container extends Application{
         profileImpl.setParameter(ProfileImpl.MAIN_HOST, "localhost");
         AgentContainer container = runtime.createAgentContainer(profileImpl);
         try {
-            AgentController agentController = container.createNewAgent("Acheteur 2", "tpjade.main.jadetp4.Acheteur2", new
+            AgentController agentController = container.createNewAgent("Acheteur 4", "tpjade.main.jadetp4.Acheteur4", new
                     Object[]{this});
             agentController.start();
         } catch (Exception e) {

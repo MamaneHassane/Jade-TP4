@@ -60,7 +60,8 @@ public class Acheteur1Container extends Application{
     }
     public void afficherMessages(ACLMessage aclMessage){
         Platform.runLater(()->{
-            observableListData.add(aclMessage.getContent()+" reçu de la part de "+ aclMessage.getSender().getName());
+            if(aclMessage!=null)
+                observableListData.add(aclMessage.getContent()+" reçu de la part de "+ aclMessage.getSender().getName());
         });
     }
     private void startContainer() {
