@@ -123,7 +123,7 @@ public class Commissaire_priseur extends GuiAgent {
                             System.out.println("Meilleure offre "+getMeilleureOffre());
                             System.out.println("Meilleur offreur "+getMeilleurOffreur());
                             setMeilleurOffreur(meilleureEntree.getKey());
-                            if(getMeilleureOffre()>=30000){ //On fait autant de tours jusqu'à atteindre notre objectif
+                            if(getMeilleureOffre()>=5000){ //On fait autant de tours jusqu'à atteindre notre objectif
                                 ACLMessage accept = new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
                                 accept.addReceiver(getMeilleurOffreur());
                                 accept.setContent("Adjugé vendu");
