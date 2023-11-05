@@ -120,9 +120,9 @@ public class Commissaire_priseur extends GuiAgent {
                             les_prix.put(reponse.getSender(),Double.parseDouble(reponse.getContent()));
                             meilleureEntree = trouverMeilleurOffreur(les_prix);
                             setMeilleureOffre(meilleureEntree.getValue());
+                            setMeilleurOffreur(meilleureEntree.getKey());
                             System.out.println("Meilleure offre "+getMeilleureOffre());
                             System.out.println("Meilleur offreur "+getMeilleurOffreur());
-                            setMeilleurOffreur(meilleureEntree.getKey());
                             if(getMeilleureOffre()>=5000){ //On fait autant de tours jusqu'à atteindre notre objectif
                                 ACLMessage accept = new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
                                 accept.addReceiver(getMeilleurOffreur());
@@ -133,8 +133,12 @@ public class Commissaire_priseur extends GuiAgent {
                                 System.out.println(acheteurs.length);
                                 message = new ACLMessage(ACLMessage.CFP);
                                 message.setContent(Double.toString(getMeilleureOffre()));
-                                for (int i =0; i<acheteurs.length;i++) message.addReceiver(acheteurs[i]);
-                                send(message);
+                                for (int i =0; i<acheteurs.length;i++) {
+                                    message.addReceiver(acheteurs[i]);
+                                    send(message);
+                                    message.clearAllReceiver();
+                                }
+
                             }
                         }
                         case ACLMessage.AGREE -> {
