@@ -24,12 +24,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
-
+//Cette classe est le conteneur de l'acheteur 1
+//Les autres conteneur des acheteurs ont le même code
 public class Acheteur1Container extends Application{
+    //Contient son acheteur
     protected Acheteur1 acheteur1;
+    //La liste des messages reçus
     protected ObservableList<String> observableListData;
     @Override
     public void start(Stage stage) throws Exception {
+        //Le code de l'interface graphique
         startContainer();
         stage.setTitle("Acheteur 1");
         BorderPane borderPane = new BorderPane();
@@ -58,12 +62,14 @@ public class Acheteur1Container extends Application{
         });
         stage.show();
     }
+    //La fonction pour afficher les messages
     public void afficherMessages(ACLMessage aclMessage){
         Platform.runLater(()->{
             if(aclMessage!=null)
                 observableListData.add(aclMessage.getContent()+" reçu de la part de "+ aclMessage.getSender().getName());
         });
     }
+    //Demarrer l'agent et son conteneur
     private void startContainer() {
         Runtime runtime = Runtime.instance();
         Profile profileImpl = new ProfileImpl();
