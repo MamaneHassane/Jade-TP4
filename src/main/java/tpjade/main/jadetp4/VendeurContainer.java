@@ -25,11 +25,15 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+// Cette classe est le conteneur application du vendeur
 public class VendeurContainer extends Application{
+    // Le vendeur qu'elle contient
     protected Vendeur vendeur;
+    // La liste des messages
     protected ObservableList<String> observableListData;
     @Override
     public void start(Stage stage) throws Exception {
+        // Le code de l'interface graphique
         startContainer();
         stage.setTitle("Vendeur");
         BorderPane borderPane = new BorderPane();
@@ -59,11 +63,13 @@ public class VendeurContainer extends Application{
         stage.show();
     }
     public void afficherMessages(ACLMessage aclMessage){
+        // L'affichage des messages
         Platform.runLater(()->{
             observableListData.add(aclMessage.getContent()+" reçu de la part de "+ aclMessage.getSender().getName());
         });
     }
     private void startContainer() {
+        // Démarrage de l'agent vendeur et affichage
         Runtime runtime = Runtime.instance();
         Profile profileImpl = new ProfileImpl();
         profileImpl.setParameter(ProfileImpl.MAIN_HOST, "localhost");

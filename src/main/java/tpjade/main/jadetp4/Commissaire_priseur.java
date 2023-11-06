@@ -167,7 +167,7 @@ public class Commissaire_priseur extends GuiAgent {
                             // La fonction est expliquée plus haut
                             send(messageFinal); // Envoyer le message au vendeur
                             System.out.println("La vente aux enchères est terminée");
-                            myAgent.doDelete(); 
+                            myAgent.doDelete();
                         }
                     }
                 } else block();

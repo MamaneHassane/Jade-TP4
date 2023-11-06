@@ -6,10 +6,12 @@ import jade.core.ProfileImpl;
 import jade.core.Runtime;
 import jade.wrapper.ControllerException;
 
+// Cette classe est le main conteneur de jade
 public class MainContainer {
     public static void main(String[] args)  {
         Runtime runtime = Runtime.instance();
         ProfileImpl profile = new ProfileImpl();
+        // Affichage du GUI de jade
         profile.setParameter(Profile.GUI,"true");
         AgentContainer mainContainer = runtime.createMainContainer(profile);
         try {

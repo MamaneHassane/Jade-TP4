@@ -21,12 +21,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+// Cette classe est le conteur du commissaire priseur
 public class Commissaire_priseur_Container extends Application {
+    // Le commissaire priseur
     protected Commissaire_priseur commissaire_priseur;
+    // La liste des messages
     protected ObservableList<String> observableListData;
 
     @Override
     public void start(Stage stage) throws Exception {
+        // Le code de l'interface graphique
         startContainer();
         stage.setTitle("Commissaire Priseur");
         BorderPane borderPane = new BorderPane();
@@ -49,12 +53,14 @@ public class Commissaire_priseur_Container extends Application {
         stage.show();
     }
     public void afficherMessages(ACLMessage aclMessage){
+        // La fonction d'affichage des messages
         Platform.runLater(()->{
             if(aclMessage!=null)
             observableListData.add(aclMessage.getContent()+" reçu de la part de "+ aclMessage.getSender().getName());
         });
     }
     private void startContainer() {
+        // Demarrer le conteneur
         Runtime runtime = Runtime.instance();
         Profile profileImpl = new ProfileImpl();
         profileImpl.setParameter(ProfileImpl.MAIN_HOST, "localhost");
